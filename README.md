@@ -14,7 +14,7 @@
 ## 项目结构
 
 ```
-mnist_neural_network/
+mnist_neural_network_v1/
 ├── neural_network.py          # 主入口：加载权重，执行推理
 ├── sample_weight.pkl          # 预训练好的模型权重
 ├── common/
@@ -40,7 +40,7 @@ pip install numpy pillow
 ## 快速开始
 
 ```bash
-cd nist_neural_network_v1
+cd mnist_neural_network_v1
 python neural_network.py
 ```
 
