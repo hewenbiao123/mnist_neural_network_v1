@@ -28,12 +28,12 @@ download_file: dict[str, str] = {
 # 下载文件存储目录（默认为当前文件所在目录）
 save_dir = os.path.dirname(os.path.abspath(__file__))
 # 持久化数据保存路径
-pickle_file_path = save_dir + "/mnist.pkl"
+pickle_file_path = os.path.join(save_dir, "mnist.pkl")
 
 # 步骤一：下载 MNIST数据集
 def download_mnist():
     for file_name in download_file.values():
-        save_file_path = save_dir + "/" + file_name   # 下载到本地路径
+        save_file_path = os.path.join(save_dir, file_name)
         # 如果已下载，不执行下载
         if os.path.exists(save_file_path):
             continue
@@ -51,7 +51,7 @@ image_size = 28 * 28
 
 # 读取标签数据，转化为 numpy 数组格式
 def _load_label(file_name: str) -> np.ndarray:
-    file_path = save_dir + "/" + file_name
+    file_path = os.path.join(save_dir, file_name)
     print(f"Converting {file_name} to Numpy Array ...")
     with gzip.open(file_path, 'rb') as f:
         # 从二进制数据中读取标签，offset=8 表示跳过 8 个字节
@@ -62,11 +62,11 @@ def _load_label(file_name: str) -> np.ndarray:
 
 # 读取图片数据，转化为 numpy 数组格式
 def _load_img(file_name: str) -> np.ndarray:
-    file_path = save_dir + "/" + file_name
+    file_path = os.path.join(save_dir, file_name)
     print(f"Converting {file_name} to Numpy Array ...")
     with gzip.open(file_path, 'rb') as f:
-        # 从二进制数据中读取标签，offset=16 表示跳过开头 16 个字节
-        # 一个像素点值为0-255，使用 uint8 读取，对应 numpy 的type 是 unit8
+        # 从二进制数据中读取图片，offset=16 表示跳过开头 16 个字节
+        # 一个像素点值为0-255，使用 uint8 读取，对应 numpy 的 dtype 是 uint8
         pixels = np.frombuffer(f.read(), np.uint8, offset=16)
     # 一张图片有 28 * 28 个像素点，按照 28 * 28 为一行
     images = pixels.reshape(-1, image_size)
@@ -124,7 +124,7 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False) -> tuple[Image
         init_mnist()
 
     with open(pickle_file_path, 'rb') as f:
-        dataset = pickle.load(f)    # pickle 文件反序列话
+        dataset = pickle.load(f)    # pickle 文件反序列化
 
     if normalize:
         for key in ('train_img', 'test_img'):
@@ -134,13 +134,13 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False) -> tuple[Image
     if one_hot_label:
         for key in ('train_label', 'test_label'):
             T = np.zeros((dataset[key].size, label_max_value + 1)) # 创建 n * 10 的全零矩阵
-            for idx in T:
+            for idx in range(len(T)):
                 T[idx][dataset[key][idx]] = 1
             dataset[key] = T
 
     # 将一张图像转化为三维张量，(灰度, 行像素数, 列像素数)
     if not flatten:
-        for key in ('train_img, test_img'):
+        for key in ('train_img', 'test_img'):
             dataset[key] = dataset[key].reshape(-1, 1, 28, 28)
 
     train_pair = (dataset['train_img'], dataset['train_label'])

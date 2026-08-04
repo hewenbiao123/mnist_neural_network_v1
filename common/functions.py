@@ -11,6 +11,8 @@ def relu(x: np.ndarray) -> np.ndarray:
     return np.maximum(0, x)
 
 def softmax(x: np.ndarray) -> np.ndarray:
-    max_value = np.max(x)
-    exp_x = np.exp(x - max_value)
-    return exp_x / np.sum(exp_x)
+    if x.ndim == 2:
+        x = x - np.max(x, axis=1, keepdims=True)
+        return np.exp(x) / np.sum(np.exp(x), axis=1, keepdims=True)
+    x = x - np.max(x)
+    return np.exp(x) / np.sum(np.exp(x))

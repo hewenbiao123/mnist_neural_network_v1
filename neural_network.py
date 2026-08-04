@@ -13,7 +13,7 @@ from dataset.mnist import load_mnist
 from common.functions import sigmoid, softmax
 import os
 
-weight_file_path = os.path.dirname(os.path.abspath(__file__)) + "/sample_weight.pkl"
+weight_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sample_weight.pkl")
 
 def get_data() -> tuple[np.ndarray, np.ndarray]:
     (x_train, t_train), (x_test, t_test) = load_mnist()
