@@ -63,6 +63,6 @@ Accuracy: 0.9352
 
 ## 注意事项
 
-- 本项目仅包含**推理（inference）**代码，训练代码不在本项目中。`sample_weight.pkl` 是已经训练好的权重文件
+- 本项目仅包含**推理**（inference）代码，训练代码不在本项目中。`sample_weight.pkl` 是已经训练好的权重文件
 - 数据集首次下载需要网络连接，下载地址为 `https://ossci-datasets.s3.amazonaws.com/mnist/`
 - 数据集文件（约 11MB × 4）和缓存文件（`mnist.pkl`）会保存在 `dataset/` 目录下，首次运行会自动下载
