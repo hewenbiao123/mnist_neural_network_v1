@@ -11,7 +11,6 @@ import pickle           # 将数据持久化保存到磁盘
 import os.path          # 用于处理文件路径
 import numpy as np
 from typing import TypeAlias # 用于类型别名
-from PIL import Image   # 用于展示图片
 
 # ===================== 下载 MNIST 数据集 =====================
 
@@ -45,8 +44,6 @@ def download_mnist():
 
 # ===================== 读取 MNIST 数据集，转化为 Numpy 数组格式 =====================
 
-train_dataset_size = 60000
-test_dataset_size = 10000
 image_size = 28 * 28
 
 # 读取标签数据，转化为 numpy 数组格式
@@ -75,7 +72,7 @@ def _load_img(file_name: str) -> np.ndarray:
 
 # 步骤二：读取数据，转化为 numpy 数组
 def convert_numpy() -> dict[str, np.ndarray]:
-    dataset: dict[str: np.ndarray] = {}
+    dataset: dict[str, np.ndarray] = {}
     for name, file_name in download_file.items():
         dataset[name] = (
             _load_img(file_name) if name.endswith('img') else _load_label(file_name)
@@ -102,8 +99,6 @@ def init_mnist():
 
 ImagePair: TypeAlias = tuple[np.ndarray, np.ndarray]
 label_max_value = 9
-pixel_max_value = 255
-image_dim = (1, 28, 28)
 
 # API，支持将标签数据独热编码，将图像像素值正规化为0.0-1.0
 def load_mnist(normalize=True, flatten=True, one_hot_label=False) -> tuple[ImagePair, ImagePair]:
@@ -154,6 +149,7 @@ def _test(idx: int):
     label = train_labels[idx]
     print(f"The label of image is {label}.")
     print(f"The shape of image is {image.shape}.")
+    from PIL import Image
     Image.fromarray(np.uint8(image)).show()
 
 if __name__ == '__main__':

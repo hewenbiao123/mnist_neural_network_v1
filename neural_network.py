@@ -38,16 +38,6 @@ def predict(network: dict[str, np.ndarray], x: np.ndarray) -> np.ndarray:
     return y
 
 
-# def run_network():
-#     x, t = get_data()
-#     network = init_network()
-#     accuracy_cnt = 0
-#     for i in range(len(x)):
-#         y = predict(network, x[i])
-#         p = np.argmax(y)    # 取最大值对应的索引
-#         accuracy_cnt += 1 if p == t[i] else 0
-#     print(f"Accuracy: {float(accuracy_cnt) / len(x)}") # Accuracy: 0.9352
-
 def run_network(batch_size=1):
     x, t = get_data()
     network = init_network()
@@ -60,6 +50,4 @@ def run_network(batch_size=1):
         accuracy_cnt += np.sum(p==t[i:i+batch_size])
     print(f"Accuracy: {float(accuracy_cnt) / len(x)}")
 
-
-
-run_network(batch_size=100) 
+run_network(batch_size=100)
