@@ -1,0 +1,9 @@
+# MNIST 数据集原始文件
+dataset/*.gz
+
+# 数据集缓存
+dataset/mnist.pkl
+
+# Python
+__pycache__/
+*.pyc
