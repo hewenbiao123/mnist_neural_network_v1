@@ -40,7 +40,7 @@ pip install numpy pillow
 ## 快速开始
 
 ```bash
-cd mnist_neural_network
+cd nist_neural_network_v1
 python neural_network.py
 ```
 
